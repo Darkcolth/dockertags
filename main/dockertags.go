@@ -25,7 +25,10 @@ func main() {
 	}
 
 	tags := model.Tags{}
-	json.Unmarshal(bytes, &tags)
+	err = json.Unmarshal(bytes, &tags)
+	if err != nil {
+		panic(err)
+	}
 	if len(tags.Results) <= 0 {
 		fmt.Println("No tags. Please confirm that the container' name is correct.")
 		os.Exit(0)
@@ -49,12 +52,12 @@ func main() {
 }
 
 func cmdLineParse() string {
-	container := os.Args[1]
+	container := flag.String("i", "", "image")
 	size := flag.Int("s", 25, "page size")
 	page := flag.Int("p", 1, "page number")
 	flag.Parse()
-	return fmt.Sprintf("https://registry.hub.docker.com/v2/repositories/%s/tags?page_size=%v&page=%v",
-		container, *size, *page)
+	return fmt.Sprintf("https://registry.hub.docker.com/v2/repositories/%v/tags?page_size=%v&page=%v",
+		*container, *size, *page)
 }
 
 func title(spaceName int, spaceSize int) string {

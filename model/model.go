@@ -19,7 +19,7 @@ type Tags struct {
 	Results []Tag `json:"results"`
 }
 
-func (tag Tag) Size() string {
+func (tag *Tag) Size() string {
 	if tag.sizeStr == "" {
 		var size = float32(tag.FullSize)
 		var i = 0
@@ -31,11 +31,11 @@ func (tag Tag) Size() string {
 	return tag.sizeStr
 }
 
-func (tag Tag) LastUpdatedTime() string {
+func (tag *Tag) LastUpdatedTime() string {
 	return tag.LastUpdated.Format("2006-01-02 15:04:05")
 }
 
-func (tag Tag) ToString(spaceName int, spaceSize int) string {
+func (tag *Tag) ToString(spaceName int, spaceSize int) string {
 	result := tag.Name
 	time1 := spaceName - len(tag.Name) + 4
 	for i := 0; i < time1; i++ {
