@@ -3,7 +3,6 @@ package main
 import (
 	"../model"
 	"encoding/json"
-	"flag"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -49,25 +48,4 @@ func main() {
 	for _, tag := range tags.Results {
 		fmt.Println(tag.ToString(spaceName, spaceSize))
 	}
-}
-
-func cmdLineParse() string {
-	container := flag.String("i", "", "image")
-	size := flag.Int("s", 25, "page size")
-	page := flag.Int("p", 1, "page number")
-	flag.Parse()
-	return fmt.Sprintf("https://registry.hub.docker.com/v2/repositories/%v/tags?page_size=%v&page=%v",
-		*container, *size, *page)
-}
-
-func title(spaceName int, spaceSize int) string {
-	result := "name"
-	for i := 0; i < spaceName; i++ {
-		result += " "
-	}
-	result += "size"
-	for i := 0; i < spaceSize; i++ {
-		result += " "
-	}
-	return result + "update time"
 }
